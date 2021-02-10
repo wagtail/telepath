@@ -1,0 +1,570 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
+    
+    
+      
+        <title>Tutorial - telepath - Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.cb6bc1d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.39b8e14a.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#009485">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="teal" data-md-color-accent="indigo">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tutorial" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href=".." title="telepath - Documentation" class="md-header-nav__button md-logo" aria-label="telepath - Documentation">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            telepath - Documentation
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              Tutorial
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="telepath - Documentation" class="md-nav__button md-logo" aria-label="telepath - Documentation">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    telepath - Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Tutorial
+      </a>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="tutorial">Tutorial</h1>
+<p>Suppose we're building a Django app for playing draughts (checkers). We've hammered away for days or weeks, building a Python implementation of the rules of the game, with classes to represent the current game state and the individual pieces. However, we also want to provide the player with a suitably friendly user interface, which means it's time for us to write a JavaScript front-end. Our UI code is inevitably going to have its own objects representing the board and playing pieces, mirroring the data structures we're keeping track of on the server - but we can't send Python objects down the wire, so getting that data onto the client will typically mean devising a JSON representation of the game state, and a whole lot of boilerplate code at either end, looping over data structures to convert to and from native objects. Let's see how telepath can streamline that process.</p>
+<p>A full game of draughts is a bit much for a tutorial, so we'll settle for just rendering the board instead...</p>
+<p>From a clean Python environment, create a new Django project:</p>
+<div class="highlight"><pre><span></span><code>pip install <span class="s2">&quot;Django&gt;=3.1,&lt;3.2&quot;</span>
+django-admin startproject draughts
+<span class="nb">cd</span> draughts
+./manage.py startapp games
+</code></pre></div>
+<p>Add <code>'games',</code> to the INSTALLED_APPS list in <code>draughts/settings.py</code>.</p>
+<p>To keep things simple, we won't touch the database in this example, and will represent the game state as ordinary Python classes rather than Django models. Edit <code>games/views.py</code> as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span>
+
+
+<span class="k">class</span> <span class="nc">Piece</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">position</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">position</span>
+
+
+<span class="k">class</span> <span class="nc">GameState</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pieces</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pieces</span> <span class="o">=</span> <span class="n">pieces</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">new_game</span><span class="p">():</span>
+        <span class="n">black_pieces</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Piece</span><span class="p">(</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">((</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">white_pieces</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Piece</span><span class="p">(</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">((</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">GameState</span><span class="p">(</span><span class="n">black_pieces</span> <span class="o">+</span> <span class="n">white_pieces</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">game</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">game_state</span> <span class="o">=</span> <span class="n">GameState</span><span class="o">.</span><span class="n">new_game</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;game.html&#39;</span><span class="p">,</span> <span class="p">{})</span>
+</code></pre></div>
+<p>Create <code>games/templates/game.html</code> as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;!doctype html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Draughts<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+            <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;DOMContentLoaded&#39;</span><span class="p">,</span> <span class="nx">event</span> <span class="p">=&gt;</span> <span class="p">{</span>
+                <span class="kd">const</span> <span class="nx">gameElement</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;game&#39;</span><span class="p">);</span>
+                <span class="nx">gameElement</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;TODO: render the board here&#39;</span>
+            <span class="p">});</span>
+        <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Draughts<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;game&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Add the new view to <code>draughts/urls.py</code>:
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">path</span>
+
+<span class="kn">from</span> <span class="nn">games.views</span> <span class="kn">import</span> <span class="n">game</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">game</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;admin/&#39;</span><span class="p">,</span> <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">),</span>
+<span class="p">]</span>
+</code></pre></div></p>
+<p>Now start the server with <code>./manage.py runserver</code> and visit <code>http://localhost:8000/</code>.</p>
+<p>So far we've created a <code>GameState</code> object representing a new game - it's now time to introduce telepath, so that we can transfer that object to the client. Run:</p>
+<div class="highlight"><pre><span></span><code>pip install telepath
+</code></pre></div>
+<p>and add <code>'telepath',</code> to the INSTALLED_APPS list in <code>draughts/settings.py</code>. Now edit <code>games/views.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="hll"><span class="kn">import</span> <span class="nn">json</span>
+</span><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span>
+<span class="hll"><span class="kn">from</span> <span class="nn">telepath</span> <span class="kn">import</span> <span class="n">JSContext</span>
+</span>
+<span class="c1"># ...</span>
+
+<span class="k">def</span> <span class="nf">game</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">game_state</span> <span class="o">=</span> <span class="n">GameState</span><span class="o">.</span><span class="n">new_game</span><span class="p">()</span>
+
+<span class="hll">    <span class="n">js_context</span> <span class="o">=</span> <span class="n">JSContext</span><span class="p">()</span>
+</span><span class="hll">    <span class="n">packed_game_state</span> <span class="o">=</span> <span class="n">js_context</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">game_state</span><span class="p">)</span>
+</span><span class="hll">    <span class="n">game_state_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">packed_game_state</span><span class="p">)</span>
+</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;game.html&#39;</span><span class="p">,</span> <span class="p">{</span>
+<span class="hll">        <span class="s1">&#39;game_state_json&#39;</span><span class="p">:</span> <span class="n">game_state_json</span><span class="p">,</span>
+</span>    <span class="p">})</span>
+</code></pre></div>
+<p>Here <code>JSContext</code> is a helper that manages the conversion of our game state object into a representation we can use in Javascript. <code>js_context.pack</code> takes that object and converts it to a value that can be JSON-serialised and passed to our template. However, reloading the page now fails with an error of the form: <code>don't know how to pack object: &lt;games.views.GameState object at 0x10f3f2490&gt;</code></p>
+<p>This is because <code>GameState</code> is a custom Python type that telepath does not yet know how to handle. Any custom type passed to <code>pack</code> must be linked to a corresponding JavaScript implementation; this is done by defining an <code>Adapter</code> object and registering it with telepath. Update <code>games/views.py</code> as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span>
+<span class="hll"><span class="kn">from</span> <span class="nn">telepath</span> <span class="kn">import</span> <span class="n">Adapter</span><span class="p">,</span> <span class="n">JSContext</span><span class="p">,</span> <span class="n">register</span>
+</span>
+<span class="c1"># ...</span>
+
+<span class="k">class</span> <span class="nc">GameState</span><span class="p">:</span>
+    <span class="c1"># keep definition as before</span>
+
+
+<span class="hll"><span class="k">class</span> <span class="nc">GameStateAdapter</span><span class="p">(</span><span class="n">Adapter</span><span class="p">):</span>
+</span><span class="hll">    <span class="n">js_constructor</span> <span class="o">=</span> <span class="s1">&#39;draughts.GameState&#39;</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="k">def</span> <span class="nf">js_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game_state</span><span class="p">):</span>
+</span><span class="hll">        <span class="k">return</span> <span class="p">[</span><span class="n">game_state</span><span class="o">.</span><span class="n">pieces</span><span class="p">]</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="k">class</span> <span class="nc">Media</span><span class="p">:</span>
+</span><span class="hll">        <span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;draughts.js&#39;</span><span class="p">]</span>
+</span><span class="hll">
+</span><span class="hll">
+</span><span class="hll"><span class="n">register</span><span class="p">(</span><span class="n">GameStateAdapter</span><span class="p">(),</span> <span class="n">GameState</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Here <code>js_constructor</code> is an identifier for a JavaScript constructor function that will be used to build GameState instances on the client side, and <code>js_args</code> defines a list of arguments that will be passed to this constructor function in order to recreate a JavaScript counterpart of the given <code>game_state</code> object. The <code>Media</code> class indicates the file where the JavaScript implementation of GameState can be found, following Django's convention for <a href="https://docs.djangoproject.com/en/static/topics/forms/media/">form media</a>. We'll see what this JavaScript implementation looks like later - for now, we need to define a similar adapter for our <code>Piece</code> class, since our definition of <code>GameStateAdapter</code> is dependent on being able to pack Piece instances. Add the following definition to <code>games/views.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Piece</span><span class="p">:</span>
+    <span class="c1"># keep definition as before</span>
+
+
+<span class="hll"><span class="k">class</span> <span class="nc">PieceAdapter</span><span class="p">(</span><span class="n">Adapter</span><span class="p">):</span>
+</span><span class="hll">    <span class="n">js_constructor</span> <span class="o">=</span> <span class="s1">&#39;draughts.Piece&#39;</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="k">def</span> <span class="nf">js_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">piece</span><span class="p">):</span>
+</span><span class="hll">        <span class="k">return</span> <span class="p">[</span><span class="n">piece</span><span class="o">.</span><span class="n">color</span><span class="p">,</span> <span class="n">piece</span><span class="o">.</span><span class="n">position</span><span class="p">]</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="k">class</span> <span class="nc">Media</span><span class="p">:</span>
+</span><span class="hll">        <span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;draughts.js&#39;</span><span class="p">]</span>
+</span><span class="hll">
+</span><span class="hll">
+</span><span class="hll"><span class="n">register</span><span class="p">(</span><span class="n">PieceAdapter</span><span class="p">(),</span> <span class="n">Piece</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Reload the page and you'll see that the error has gone, indicating that we have successfully serialised the GameState object to JSON and passed it to the template. We can now include this in the template - edit <code>games/templates/game.html</code>:</p>
+<div class="highlight"><pre><span></span><code>    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Draughts<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="hll">        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;game&quot;</span> <span class="na">data-game-state</span><span class="o">=</span><span class="s">&quot;{{ game_state_json }}&quot;</span><span class="p">&gt;</span>
+</span>        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Reload the page again and inspect the <code>game</code> element in your browser's developer tools (in Chrome and Firefox, right-click the TODO note and select Inspect or Inspect Element), and you'll see the JSON representation of the GameState object, ready to be unpacked into a full-fledged JavaScript object.</p>
+<p>Along with packing data into JSON-serialisable form, the <code>JSContext</code> object also keeps track of the JavaScript media definitions that will be needed to unpack the data, as its <code>media</code> property. Let's update our <code>game</code> view to pass this to the template too - in <code>games/views.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">game</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">game_state</span> <span class="o">=</span> <span class="n">GameState</span><span class="o">.</span><span class="n">new_game</span><span class="p">()</span>
+
+    <span class="n">js_context</span> <span class="o">=</span> <span class="n">JSContext</span><span class="p">()</span>
+    <span class="n">packed_game_state</span> <span class="o">=</span> <span class="n">js_context</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">game_state</span><span class="p">)</span>
+    <span class="n">game_state_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">packed_game_state</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;game.html&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s1">&#39;game_state_json&#39;</span><span class="p">:</span> <span class="n">game_state_json</span><span class="p">,</span>
+<span class="hll">        <span class="s1">&#39;media&#39;</span><span class="p">:</span> <span class="n">js_context</span><span class="o">.</span><span class="n">media</span><span class="p">,</span>
+</span>    <span class="p">})</span>
+</code></pre></div>
+<p>Add this to the HTML header in <code>games/templates/game.html</code>:</p>
+<div class="highlight"><pre><span></span><code>    <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Draughts<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+<span class="hll">        {{ media }}
+</span>        <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+            <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;DOMContentLoaded&#39;</span><span class="p">,</span> <span class="nx">event</span> <span class="p">=&gt;</span> <span class="p">{</span>
+                <span class="kd">const</span> <span class="nx">gameElement</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;game&#39;</span><span class="p">);</span>
+                <span class="nx">gameElement</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;TODO: render the board here&#39;</span>
+            <span class="p">});</span>
+        <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Reloading the page and viewing source, you'll see that this brings in two JavaScript includes - <code>telepath.js</code> (the client-side telepath library, which provides the unpacking mechanism) and the <code>draughts.js</code> file we specified in our adapter definitions. The latter doesn't exist yet, so let's create it - in <code>games/static/draughts.js</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nx">Piece</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">(</span><span class="nx">color</span><span class="p">,</span> <span class="nx">position</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="nx">color</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">position</span> <span class="o">=</span> <span class="nx">position</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">telepath</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s1">&#39;draughts.Piece&#39;</span><span class="p">,</span> <span class="nx">Piece</span><span class="p">);</span>
+
+
+<span class="kd">class</span> <span class="nx">GameState</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">(</span><span class="nx">pieces</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">pieces</span> <span class="o">=</span> <span class="nx">pieces</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">telepath</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s1">&#39;draughts.GameState&#39;</span><span class="p">,</span> <span class="nx">GameState</span><span class="p">);</span>
+</code></pre></div>
+<p>The two class definitions implement the constructor functions that we declared earlier in the adapter objects - the arguments received by the constructor are the ones defined by <code>js_args</code>. The <code>window.telepath.register</code> lines attach these class definitions to the corresponding identifiers that were specified through <code>js_constructor</code>. This now gives us everything we need to unpack the JSON - back in <code>games/templates/game.html</code>, update the JS code as follows:</p>
+<div class="highlight"><pre><span></span><code>        <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+            <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;DOMContentLoaded&#39;</span><span class="p">,</span> <span class="nx">event</span> <span class="p">=&gt;</span> <span class="p">{</span>
+                <span class="kd">const</span> <span class="nx">gameElement</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;game&#39;</span><span class="p">);</span>
+<span class="hll">                <span class="kd">const</span> <span class="nx">gameStateJson</span> <span class="o">=</span> <span class="nx">gameElement</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">gameState</span><span class="p">;</span>
+</span><span class="hll">                <span class="kd">const</span> <span class="nx">packedGameState</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">gameStateJson</span><span class="p">);</span>
+</span><span class="hll">                <span class="kd">const</span> <span class="nx">gameState</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">telepath</span><span class="p">.</span><span class="nx">unpack</span><span class="p">(</span><span class="nx">packedGameState</span><span class="p">);</span>
+</span><span class="hll">                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">gameState</span><span class="p">);</span>
+</span><span class="hll">            <span class="p">})</span>
+</span>        <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>You may need to restart the server to pick up the new <code>games/static</code> folder. Reload the page, and in the browser console you should now see the <code>GameState</code> object, populated with <code>Piece</code> objects. We can now proceed to fill in our rendering code in <code>games/static/draughts.js</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nx">Piece</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">(</span><span class="nx">color</span><span class="p">,</span> <span class="nx">position</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="nx">color</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">position</span> <span class="o">=</span> <span class="nx">position</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="hll">    <span class="nx">render</span><span class="p">(</span><span class="nx">container</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="hll">        <span class="kd">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+</span><span class="hll">        <span class="nx">container</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">element</span><span class="p">);</span>
+</span><span class="hll">        <span class="nx">element</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="nx">element</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="s1">&#39;24px&#39;</span><span class="p">;</span>
+</span><span class="hll">        <span class="nx">element</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">border</span> <span class="o">=</span> <span class="s1">&#39;2px solid grey&#39;</span><span class="p">;</span>
+</span><span class="hll">        <span class="nx">element</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">borderRadius</span> <span class="o">=</span> <span class="s1">&#39;14px&#39;</span><span class="p">;</span>
+</span><span class="hll">        <span class="nx">element</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">color</span><span class="p">;</span>
+</span><span class="hll">    <span class="p">}</span>
+</span><span class="p">}</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">telepath</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s1">&#39;draughts.Piece&#39;</span><span class="p">,</span> <span class="nx">Piece</span><span class="p">)</span>
+
+
+<span class="kd">class</span> <span class="nx">GameState</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">(</span><span class="nx">pieces</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">pieces</span> <span class="o">=</span> <span class="nx">pieces</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="hll">    <span class="nx">render</span><span class="p">(</span><span class="nx">container</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="hll">        <span class="kd">const</span> <span class="nx">table</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;table&#39;</span><span class="p">);</span>
+</span><span class="hll">        <span class="nx">container</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">table</span><span class="p">);</span>
+</span><span class="hll">        <span class="kd">const</span> <span class="nx">cells</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class="hll">        <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">y</span> <span class="o">&lt;</span> <span class="mf">8</span><span class="p">;</span> <span class="nx">y</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="hll">            <span class="kd">let</span> <span class="nx">row</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;tr&#39;</span><span class="p">);</span>
+</span><span class="hll">            <span class="nx">table</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">row</span><span class="p">);</span>
+</span><span class="hll">            <span class="nx">cells</span><span class="p">[</span><span class="nx">y</span><span class="p">]</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class="hll">            <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="mf">8</span><span class="p">;</span> <span class="nx">x</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="hll">                <span class="kd">let</span> <span class="nx">cell</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">);</span>
+</span><span class="hll">                <span class="nx">row</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">cell</span><span class="p">);</span>
+</span><span class="hll">                <span class="nx">cells</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="nx">cell</span><span class="p">;</span>
+</span><span class="hll">                <span class="nx">cell</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="s1">&#39;32px&#39;</span><span class="p">;</span>
+</span><span class="hll">                <span class="nx">cell</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">)</span> <span class="o">%</span> <span class="mf">2</span> <span class="o">?</span> <span class="s1">&#39;silver&#39;</span><span class="o">:</span> <span class="s1">&#39;white&#39;</span><span class="p">;</span>
+</span><span class="hll">            <span class="p">}</span>
+</span><span class="hll">        <span class="p">}</span>
+</span><span class="hll">
+</span><span class="hll">        <span class="k">this</span><span class="p">.</span><span class="nx">pieces</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">piece</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span><span class="hll">            <span class="kd">const</span> <span class="p">[</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">]</span> <span class="o">=</span> <span class="nx">piece</span><span class="p">.</span><span class="nx">position</span><span class="p">;</span>
+</span><span class="hll">            <span class="kd">const</span> <span class="nx">cell</span> <span class="o">=</span> <span class="nx">cells</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">];</span>
+</span><span class="hll">            <span class="nx">piece</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">cell</span><span class="p">);</span>
+</span><span class="hll">        <span class="p">});</span>
+</span><span class="hll">    <span class="p">}</span>
+</span><span class="p">}</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">telepath</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s1">&#39;draughts.GameState&#39;</span><span class="p">,</span> <span class="nx">GameState</span><span class="p">)</span>
+</code></pre></div>
+<p>Add a call to the <code>render</code> method in <code>games/templates/game.html</code>:</p>
+<div class="highlight"><pre><span></span><code>        <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+            <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;DOMContentLoaded&#39;</span><span class="p">,</span> <span class="nx">event</span> <span class="p">=&gt;</span> <span class="p">{</span>
+                <span class="kd">const</span> <span class="nx">gameElement</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;game&#39;</span><span class="p">);</span>
+                <span class="kd">const</span> <span class="nx">gameStateJson</span> <span class="o">=</span> <span class="nx">gameElement</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">gameState</span><span class="p">;</span>
+                <span class="kd">const</span> <span class="nx">packedGameState</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">gameStateJson</span><span class="p">);</span>
+                <span class="kd">const</span> <span class="nx">gameState</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">telepath</span><span class="p">.</span><span class="nx">unpack</span><span class="p">(</span><span class="nx">packedGameState</span><span class="p">);</span>
+<span class="hll">                <span class="nx">gameState</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">gameElement</span><span class="p">);</span>
+</span>            <span class="p">})</span>
+        <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Reload the page, and you'll see our draughts board set up and ready for a game.</p>
+<p>Let's take a quick look back at what we've achieved:</p>
+<ul>
+<li>We've packed and unpacked a data structure of custom Python / JavaScript types, without having to write code to recurse over that structure. If our GameState object becomes more complex (for example, the 'pieces' list might become a mixed list of Piece and King objects, or the state could include the game history) then there's no need to refactor any of the data packing / unpacking logic, other than providing an adapter object for each class used.</li>
+<li>Only the JS files necessary for unpacking the on-page data were served - if our gaming app expanded to cover Chess, Go and Othello, with all of the resulting classes registered with telepath, we'd still only need to serve the draughts-related code on this page.</li>
+<li>Even though we're working with arbitrary objects, no dynamic inline JavaScript was required - all dynamic data was passed as JSON, and all JavaScript code was fixed at deployment time (important if our site is enforcing <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP">CSP</a>).</li>
+</ul>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href=".." class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Home
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.18f0862e.min.js"></script>
+      <script src="../assets/javascripts/bundle.994580cf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.9c0e82ba.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>
