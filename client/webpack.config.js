@@ -4,7 +4,7 @@ module.exports = {
   entry: {
     telepath: {
       import: ["./client/telepath.js"],
-      filename: "telepath/static/telepath/telepath.js",
+      filename: "telepath/static/telepath/js/telepath.js",
     }
   },
   output: {

@@ -14,10 +14,17 @@ setup(
     author_email='matthew.westcott@torchbox.com',
     url='https://github.com/wagtail/telepath',
     packages=["telepath"],
+    include_package_data=True,
     license='BSD',
     long_description=long_description,
     long_description_content_type="text/markdown",
     python_requires=">=3.5",
+    extras_require={
+        'docs': [
+            'mkdocs>=1.1,<1.2',
+            'mkdocs-material>=4.6,<4.7',
+        ],
+    },
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
