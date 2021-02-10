@@ -22,7 +22,7 @@ setup(
     extras_require={
         'docs': [
             'mkdocs>=1.1,<1.2',
-            'mkdocs-material>=4.6,<4.7',
+            'mkdocs-material>=6.2,<6.3',
         ],
     },
     classifiers=[

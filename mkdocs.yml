@@ -1,0 +1,12 @@
+site_name: telepath - Documentation
+theme:
+  name: 'material'
+  palette:
+    primary: 'teal'
+    accent: 'indigo'
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+nav:
+  - Home: index.md
+  - Tutorial: tutorial.md
