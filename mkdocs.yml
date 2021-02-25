@@ -10,3 +10,4 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Tutorial: tutorial.md
+  - API reference: api_reference.md
