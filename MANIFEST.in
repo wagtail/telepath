@@ -1,1 +1,2 @@
+include LICENSE *.md
 recursive-include telepath/static *
