@@ -1,5 +1,6 @@
 import itertools
 
+from django.utils.translation import activate, gettext_lazy
 from unittest import TestCase
 
 from telepath import Adapter, JSContext, register
@@ -244,6 +245,19 @@ class TestPacking(TestCase):
                 ]
             },
         ])
+
+    def test_lazy_translation_objects(self):
+        yes = Artist(gettext_lazy("Yes"))
+
+        activate('en')
+        ctx = JSContext()
+        result = ctx.pack(yes)
+        self.assertEqual(result, {'_type': 'music.Artist', '_args': ["Yes"]})
+
+        activate('fr')
+        ctx = JSContext()
+        result = ctx.pack(yes)
+        self.assertEqual(result, {'_type': 'music.Artist', '_args': ["Oui"]})
 
 
 class Ark:
