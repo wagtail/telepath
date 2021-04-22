@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import MediaDefiningClass
-from django.utils.functional import cached_property
+from django.utils.functional import cached_property, Promise
 
 
 DICT_RESERVED_KEYS = ['_type', '_args', '_dict', '_list', '_val', '_id', '_ref']
@@ -282,7 +282,14 @@ class ValueContext:
         if adapter:
             return adapter.pack(obj, self)
 
-        # as fallback, try handling as an iterable
+        # No adapter found; try special-case fallbacks
+
+        if isinstance(obj, Promise) and obj._delegate_text:
+            # object is a lazy translation object; handle as a string, translated to the currently
+            # active locale
+            return StringNode(str(obj))
+
+        # try handling as an iterable
         try:
             items = iter(obj)
         except TypeError:  # obj is not iterable
