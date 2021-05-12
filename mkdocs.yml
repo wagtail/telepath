@@ -1,4 +1,6 @@
 site_name: telepath - Documentation
+repo_url: https://github.com/wagtail/telepath
+edit_uri: blob/main/docs/
 theme:
   name: 'material'
   palette:
