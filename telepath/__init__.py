@@ -192,11 +192,21 @@ class JSContextBase:
     def base_media(self):
         return forms.Media(js=[self.telepath_js_path])
 
-    def add_media(self, media):
-        media_str = str(media)
-        if media_str not in self.media_fragments:
-            self.media += media
-            self.media_fragments.add(media_str)
+    def add_media(self, media=None, js=None, css=None):
+        media_objects = []
+        if media:
+            media_objects.append(media)
+        if js or css:
+            if isinstance(js, str):
+                # allow passing a single JS file name as equivalent to a singleton list
+                js = [js]
+            media_objects.append(forms.Media(js=js, css=css))
+
+        for media_obj in media_objects:
+            media_str = str(media_obj)
+            if media_str not in self.media_fragments:
+                self.media += media_obj
+                self.media_fragments.add(media_str)
 
     def pack(self, obj):
         return ValueContext(self).build_node(obj).emit()
@@ -257,8 +267,8 @@ class ValueContext:
         self.nodes = {}
         self.next_id = 0
 
-    def add_media(self, media):
-        self.parent_context.add_media(media)
+    def add_media(self, *args, **kwargs):
+        self.parent_context.add_media(*args, **kwargs)
 
     def build_node(self, val):
         obj_id = id(val)
