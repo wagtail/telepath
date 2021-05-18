@@ -118,27 +118,28 @@ class ObjectNode(Node):
 
 class BaseAdapter:
     """Handles serialisation of a specific object type"""
-    def pack(self, obj, context):
+    def build_node(self, obj, context):
         """
-        Translates obj into serialisable form. Any media declarations that will be required for
-        deserialisation of the object should be passed to context.add_media().
+        Translates obj into a node that we can call emit() on to obtain the final serialisable
+        form. Any media declarations that will be required for deserialisation of the object should
+        be passed to context.add_media().
 
-        This base implementation handles simple JSON-serialisable values such as strings, and
-        returns them unchanged.
+        This base implementation handles simple JSON-serialisable values such as integers, and
+        wraps them as a ValueNode.
         """
         return ValueNode(obj)
 
 
 class StringAdapter(BaseAdapter):
-    def pack(self, obj, context):
+    def build_node(self, obj, context):
         return StringNode(obj)
 
 
 class DictAdapter(BaseAdapter):
     """Handles serialisation of dicts"""
-    def pack(self, obj, context):
+    def build_node(self, obj, context):
         return DictNode({
-            str(key): context.pack(val)
+            str(key): context.build_node(val)
             for key, val in obj.items()
         })
 
@@ -158,11 +159,11 @@ class Adapter(BaseAdapter, metaclass=MediaDefiningClass):
     def get_media(self, obj):
         return self.media
 
-    def pack(self, obj, context):
+    def build_node(self, obj, context):
         context.add_media(self.get_media(obj))
         return ObjectNode(
             self.js_constructor,
-            [context.pack(arg) for arg in self.js_args(obj)]
+            [context.build_node(arg) for arg in self.js_args(obj)]
         )
 
 
@@ -195,7 +196,7 @@ class JSContextBase:
             self.media_fragments.add(media_str)
 
     def pack(self, obj):
-        return ValueContext(self).pack(obj).emit()
+        return ValueContext(self).build_node(obj).emit()
 
 
 class AdapterRegistry:
@@ -239,48 +240,48 @@ class AdapterRegistry:
 
 class ValueContext:
     """
-    A context instantiated for each top-level value that JSContext.pack is called on.
-    Values packed in this context will be kept in a lookup table; if over the course of
-    packing the top level value we encounter multiple references to the same value, a
-    reference to the previously-packed value will be generated rather than packing it
-    again. Calls to add_media are passed back to the parent context so that multiple
-    calls to pack() will have their media combined in a single bundle.
+    A context instantiated for each top-level value that JSContext.pack is called on. Results from
+    this context's build_node method will be kept in a lookup table. If, over the course of
+    building the node tree for the top level value, we encounter multiple references to the same
+    value, a reference to the existing node will be generated rather than building it again. Calls
+    to add_media are passed back to the parent context so that multiple calls to pack() will have
+    their media combined in a single bundle.
     """
     def __init__(self, parent_context):
         self.parent_context = parent_context
         self.registry = parent_context.registry
         self.raw_values = {}
-        self.packed_values = {}
+        self.nodes = {}
         self.next_id = 0
 
     def add_media(self, media):
         self.parent_context.add_media(media)
 
-    def pack(self, val):
+    def build_node(self, val):
         obj_id = id(val)
         try:
-            existing_packed_val = self.packed_values[obj_id]
+            existing_node = self.nodes[obj_id]
         except KeyError:
-            # not seen this value before, so pack it and store in packed_values
-            packed_val = self._pack_as_value(val)
-            self.packed_values[obj_id] = packed_val
+            # not seen this value before, so build a new node for it and store in self.nodes
+            node = self._build_new_node(val)
+            self.nodes[obj_id] = node
             # Also keep a reference to the original value to stop it from getting deallocated
             # and the ID being recycled
             self.raw_values[obj_id] = val
 
-            return packed_val
+            return node
 
-        if existing_packed_val.id is None:
-            # Assign existing_packed_val an ID so that we can create references to it
-            existing_packed_val.id = self.next_id
+        if existing_node.id is None:
+            # Assign existing_node an ID so that we can create references to it
+            existing_node.id = self.next_id
             self.next_id += 1
 
-        return existing_packed_val
+        return existing_node
 
-    def _pack_as_value(self, obj):
+    def _build_new_node(self, obj):
         adapter = self.registry.find_adapter(type(obj))
         if adapter:
-            return adapter.pack(obj, self)
+            return adapter.build_node(obj, self)
 
         # No adapter found; try special-case fallbacks
 
@@ -295,7 +296,7 @@ class ValueContext:
         except TypeError:  # obj is not iterable
             raise UnpackableTypeError("don't know how to pack object: %r" % obj)
         else:
-            return ListNode([self.pack(item) for item in items])
+            return ListNode([self.build_node(item) for item in items])
 
 
 # define a default registry of adapters. Typically this will be the only instance of
