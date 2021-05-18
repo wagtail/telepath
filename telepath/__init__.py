@@ -159,11 +159,14 @@ class Adapter(BaseAdapter, metaclass=MediaDefiningClass):
     def get_media(self, obj):
         return self.media
 
-    def build_node(self, obj, context):
+    def pack(self, obj, context):
         context.add_media(self.get_media(obj))
+        return (self.js_constructor, self.js_args(obj))
+
+    def build_node(self, obj, context):
+        constructor, args = self.pack(obj, context)
         return ObjectNode(
-            self.js_constructor,
-            [context.build_node(arg) for arg in self.js_args(obj)]
+            constructor, [context.build_node(arg) for arg in args]
         )
 
 
