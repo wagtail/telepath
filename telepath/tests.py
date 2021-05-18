@@ -1,5 +1,6 @@
 import itertools
 
+from django.forms import Media
 from django.utils.translation import activate, gettext_lazy
 from unittest import TestCase
 
@@ -28,13 +29,10 @@ register(ArtistAdapter(), Artist)
 
 
 class AlbumAdapter(Adapter):
-    js_constructor = 'music.Album'
+    def pack(self, obj, context):
+        context.add_media(Media(js=['music_player.js']))
 
-    def js_args(self, obj):
-        return [obj.title, obj.artists]
-
-    class Media:
-        js = ['music_player.js']
+        return ('music.Album', [obj.title, obj.artists])
 
 
 register(AlbumAdapter(), Album)
