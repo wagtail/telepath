@@ -11,6 +11,14 @@ class Artist:
         self.name = name
 
 
+class AlbumAdapter(Adapter):
+    def pack(self, obj, context):
+        context.add_media(js='music_player.js')
+
+        return ('music.Album', [obj.title, obj.artists])
+
+
+@register(adapter=AlbumAdapter())
 class Album:
     def __init__(self, title, artists):
         self.title = title
@@ -25,16 +33,6 @@ class ArtistAdapter(Adapter):
 
 
 register(ArtistAdapter(), Artist)
-
-
-class AlbumAdapter(Adapter):
-    def pack(self, obj, context):
-        context.add_media(js='music_player.js')
-
-        return ('music.Album', [obj.title, obj.artists])
-
-
-register(AlbumAdapter(), Album)
 
 
 class TestPacking(TestCase):
