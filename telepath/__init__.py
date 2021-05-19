@@ -252,20 +252,30 @@ class AdapterRegistry:
             self.adapters[cls] = adapter
 
         elif not args:
-            # called as a class decorator: @register() or @register(adapter=MyAdapter())
+            # called as a class decorator: @register() or @register(adapter=MyAdapter()) -
+            # the return value here is the function that will receive the class definition
             adapter = kwargs.get('adapter') or AutoAdapter()
             if not isinstance(adapter, Adapter):
                 raise TypeError("register expected an Adapter instance, got %r" % adapter)
 
             def wrapper(cls):
+                # register the class and return it unchanged
                 self.adapters[cls] = adapter
                 return cls
 
             return wrapper
 
+        elif len(args) == 1 and isinstance(args[0], type):
+            # called as a class decorator @register without parentheses -
+            # we are passed the class definition here
+            cls = args[0]
+            self.adapters[cls] = AutoAdapter()
+            return cls
+
         else:
             raise TypeError(
-                "register must be called as either register(adapter, cls) or @register(adapter=MyAdapter())"
+                "register must be called as register(adapter, cls) or as a class decorator - "
+                "@register or @register(adapter=MyAdapter())"
             )
 
 

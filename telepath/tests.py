@@ -11,7 +11,7 @@ class Artist:
         self.name = name
 
 
-@register()
+@register
 class Album:
     def __init__(self, title, artists):
         self.title = title
