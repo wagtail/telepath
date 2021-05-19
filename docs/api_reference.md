@@ -23,9 +23,15 @@ As an alternative to defining `pack`, adapter subclasses may define the followin
 * `js_args(obj)` - Given the object to be packed, return the list of arguments that should be passed to the constructor function.
 * `get_media(obj)` - Given the object to be packed, return a [Django form media object](https://docs.djangoproject.com/en/stable/topics/forms/media/) for the JavaScript and CSS assets needed to unpack the client-side object. This should include the .js file where the constructor function is defined and registered with telepath. Alternatively, if the media definition is the same for all object instances, this can be defined as an inner `Media` class.
 
+### `telepath.AutoAdapter()`
+
+A general-purpose adapter object for classes that define their own packing logic; this is generally the preferred route when making classes you have defined yourself available to telepath, as it is more concise than defining an adapter object explicitly. The class must implement a method `telepath_pack(self, context)`; AutoAdapter will delegate to this when packing the object.
+
 ### `telepath.register(adapter, cls)`
 
 Registers an adapter object (an instance of a `telepath.Adapter` subclass) to be used by telepath when it encounters an object of type `cls`. If more than one class in an object's inheritance chain has an adapter defined, the most specific one according to the method resolution order (MRO) will be used.
+
+Can also be applied as a class decorator `@telepath.register(adapter=MyAdapter())`; in this case `adapter` is optional and defaults to `AutoAdapter()` if not specified.
 
 ### `telepath.JSContext()`
 
