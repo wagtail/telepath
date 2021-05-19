@@ -234,8 +234,32 @@ class AdapterRegistry:
             # superclass, so will be handled as a special case
         }
 
-    def register(self, adapter, cls):
-        self.adapters[cls] = adapter
+    def register(self, *args, **kwargs):
+        if len(args) == 2 and not kwargs:
+            # called as register(adapter, cls)
+            adapter, cls = args
+            if not isinstance(adapter, Adapter):
+                raise TypeError("register expected an Adapter instance, got %r" % adapter)
+
+            self.adapters[cls] = adapter
+
+        elif not args:
+            # called as a class decorator: @register() or @register(adapter=MyAdapter())
+            adapter = kwargs['adapter']  # TODO: implement fallback adapter
+            if not isinstance(adapter, Adapter):
+                raise TypeError("register expected an Adapter instance, got %r" % adapter)
+
+            def wrapper(cls):
+                self.adapters[cls] = adapter
+                return cls
+
+            return wrapper
+
+        else:
+            raise TypeError(
+                "register must be called as either register(adapter, cls) or @register(adapter=MyAdapter())"
+            )
+
 
     def find_adapter(self, cls):
         for base in cls.__mro__:
@@ -318,7 +342,4 @@ class ValueContext:
 
 registry = AdapterRegistry()
 JSContext = registry.js_context_class
-
-
-def register(adapter, cls):
-    registry.register(adapter, cls)
+register = registry.register
