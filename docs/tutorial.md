@@ -120,7 +120,7 @@ Here `JSContext` is a helper that manages the conversion of our game state objec
 
 This is because `GameState` is a custom Python type that telepath does not yet know how to handle. Any custom type passed to `pack` must be linked to a corresponding JavaScript implementation; this is done by defining an `Adapter` object and registering it with telepath. Update `games/views.py` as follows:
 
-```python hl_lines="3 11-21"
+```python hl_lines="3 11-17"
 import json
 from django.shortcuts import render
 from telepath import Adapter, JSContext, register
@@ -132,33 +132,25 @@ class GameState:
 
 
 class GameStateAdapter(Adapter):
-    js_constructor = 'draughts.GameState'
-
-    def js_args(self, game_state):
-        return [game_state.pieces]
-
-    class Media:
-        js = ['draughts.js']
+    def pack(self, game_state, context):
+        context.add_media(js='draughts.js')
+        return ('draughts.GameState', [game_state.pieces])
 
 
 register(GameStateAdapter(), GameState)
 ```
 
-Here `js_constructor` is an identifier for a JavaScript constructor function that will be used to build GameState instances on the client side, and `js_args` defines a list of arguments that will be passed to this constructor function in order to recreate a JavaScript counterpart of the given `game_state` object. The `Media` class indicates the file where the JavaScript implementation of GameState can be found, following Django's convention for [form media](https://docs.djangoproject.com/en/static/topics/forms/media/). We'll see what this JavaScript implementation looks like later - for now, we need to define a similar adapter for our `Piece` class, since our definition of `GameStateAdapter` is dependent on being able to pack Piece instances. Add the following definition to `games/views.py`:
+Here the `pack` method tells telepath how to 'deconstruct' the `game_state` object so that it can be reconstructed on the client side as a JavaScript object. `'draughts.GameState'` is an identifier for a JavaScript constructor function that we will define later on; this is followed by a list of arguments that will be passed to this constructor function, which in this case is a single argument, the list of Piece objects. The line `context.add_media(js='draughts.js'])` tells telepath that the JavaScript implementation of GameState can be found in the file `draughts.js`. We'll see what this JavaScript implementation looks like later - for now, we need to define a similar adapter for our `Piece` class, since our definition of `GameStateAdapter` is dependent on being able to pack Piece instances. Add the following definition to `games/views.py`:
 
-```python hl_lines="5-15"
+```python hl_lines="5-11"
 class Piece:
     # keep definition as before
 
 
 class PieceAdapter(Adapter):
-    js_constructor = 'draughts.Piece'
-
-    def js_args(self, piece):
-        return [piece.color, piece.position]
-
-    class Media:
-        js = ['draughts.js']
+    def pack(self, piece, context):
+        context.add_media(js='draughts.js')
+        return ('draughts.Piece', [piece.color, piece.position])
 
 
 register(PieceAdapter(), Piece)
@@ -227,7 +219,7 @@ class GameState {
 window.telepath.register('draughts.GameState', GameState);
 ```
 
-The two class definitions implement the constructor functions that we declared earlier in the adapter objects - the arguments received by the constructor are the ones defined by `js_args`. The `window.telepath.register` lines attach these class definitions to the corresponding identifiers that were specified through `js_constructor`. This now gives us everything we need to unpack the JSON - back in `games/templates/game.html`, update the JS code as follows:
+The two class definitions implement the constructor functions that we declared earlier in the adapter objects - the arguments received by the constructor match the ones we supplied in the `pack` method. The `window.telepath.register` lines attach these class definitions to the corresponding identifiers that were specified through `js_constructor`. This now gives us everything we need to unpack the JSON - back in `games/templates/game.html`, update the JS code as follows:
 
 ```html hl_lines="4-8"
         <script>
