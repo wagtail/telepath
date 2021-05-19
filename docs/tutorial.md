@@ -118,42 +118,51 @@ def game(request):
 
 Here `JSContext` is a helper that manages the conversion of our game state object into a representation we can use in Javascript. `js_context.pack` takes that object and converts it to a value that can be JSON-serialised and passed to our template. However, reloading the page now fails with an error of the form: `don't know how to pack object: <games.views.GameState object at 0x10f3f2490>`
 
-This is because `GameState` is a custom Python type that telepath does not yet know how to handle. Any custom type passed to `pack` must be linked to a corresponding JavaScript implementation; this is done by defining an `Adapter` object and registering it with telepath. Update `games/views.py` as follows:
+This is because `GameState` is a custom Python type that telepath does not yet know how to handle. Any custom type passed to `pack` must be linked to a corresponding JavaScript implementation; this is done by defining a `telepath_pack` method and registering the class with telepath. Update `games/views.py` as follows:
 
-```python hl_lines="3 11-17"
+```python hl_lines="3 7 26-28"
 import json
 from django.shortcuts import render
-from telepath import Adapter, JSContext, register
+from telepath import JSContext, register
 
 # ...
 
+@register
 class GameState:
-    # keep definition as before
+    def __init__(self, pieces):
+        self.pieces = pieces
 
+    @staticmethod
+    def new_game():
+        black_pieces = [
+            Piece('black', (x, y))
+            for y in range(0, 3)
+            for x in range((y + 1) % 2, 8, 2)
+        ]
+        white_pieces = [
+            Piece('white', (x, y))
+            for y in range(5, 8)
+            for x in range((y + 1) % 2, 8, 2)
+        ]
+        return GameState(black_pieces + white_pieces)
 
-class GameStateAdapter(Adapter):
-    def pack(self, game_state, context):
+    def telepath_pack(self, context):
         context.add_media(js='draughts.js')
-        return ('draughts.GameState', [game_state.pieces])
-
-
-register(GameStateAdapter(), GameState)
+        return ('draughts.GameState', [self.pieces])
 ```
 
-Here the `pack` method tells telepath how to 'deconstruct' the `game_state` object so that it can be reconstructed on the client side as a JavaScript object. `'draughts.GameState'` is an identifier for a JavaScript constructor function that we will define later on; this is followed by a list of arguments that will be passed to this constructor function, which in this case is a single argument, the list of Piece objects. The line `context.add_media(js='draughts.js'])` tells telepath that the JavaScript implementation of GameState can be found in the file `draughts.js`. We'll see what this JavaScript implementation looks like later - for now, we need to define a similar adapter for our `Piece` class, since our definition of `GameStateAdapter` is dependent on being able to pack Piece instances. Add the following definition to `games/views.py`:
+Here the `telepath_pack` method tells telepath how to 'deconstruct' the `game_state` object so that it can be reconstructed on the client side as a JavaScript object. `'draughts.GameState'` is an identifier for a JavaScript constructor function that we will define later on; this is followed by a list of arguments that will be passed to this constructor function, which in this case is a single argument, the list of Piece objects. The line `context.add_media(js='draughts.js'])` tells telepath that the JavaScript implementation of GameState can be found in the file `draughts.js`. We'll see what this JavaScript implementation looks like later - for now, we need to add a similar definition for our `Piece` class, since our definition of `GameState.telepath_pack` is dependent on being able to pack Piece instances. In `games/views.py`:
 
-```python hl_lines="5-11"
+```python hl_lines="1 7-9"
+@register
 class Piece:
-    # keep definition as before
+    def __init__(self, color, position):
+        self.color = color
+        self.position = position
 
-
-class PieceAdapter(Adapter):
-    def pack(self, piece, context):
+    def telepath_pack(self, context):
         context.add_media(js='draughts.js')
-        return ('draughts.Piece', [piece.color, piece.position])
-
-
-register(PieceAdapter(), Piece)
+        return ('draughts.Piece', [self.color, self.position])
 ```
 
 Reload the page and you'll see that the error has gone, indicating that we have successfully serialised the GameState object to JSON and passed it to the template. We can now include this in the template - edit `games/templates/game.html`:
@@ -199,7 +208,7 @@ Add this to the HTML header in `games/templates/game.html`:
     </head>
 ```
 
-Reloading the page and viewing source, you'll see that this brings in two JavaScript includes - `telepath.js` (the client-side telepath library, which provides the unpacking mechanism) and the `draughts.js` file we specified in our adapter definitions. The latter doesn't exist yet, so let's create it - in `games/static/draughts.js`:
+Reloading the page and viewing source, you'll see that this brings in two JavaScript includes - `telepath.js` (the client-side telepath library, which provides the unpacking mechanism) and the `draughts.js` file we specified in our `telepath_pack` methods. The latter doesn't exist yet, so let's create it - in `games/static/draughts.js`:
 
 ```javascript
 class Piece {
@@ -219,7 +228,7 @@ class GameState {
 window.telepath.register('draughts.GameState', GameState);
 ```
 
-The two class definitions implement the constructor functions that we declared earlier in the adapter objects - the arguments received by the constructor match the ones we supplied in the `pack` method. The `window.telepath.register` lines attach these class definitions to the corresponding identifiers that were specified through `js_constructor`. This now gives us everything we need to unpack the JSON - back in `games/templates/game.html`, update the JS code as follows:
+The two class definitions implement the constructor functions that we declared earlier in the `telepath_pack` methods - the arguments received by the constructor match the ones we supplied in the `pack` method. The `window.telepath.register` lines attach these class definitions to the corresponding identifiers that were specified through `js_constructor`. This now gives us everything we need to unpack the JSON - back in `games/templates/game.html`, update the JS code as follows:
 
 ```html hl_lines="4-8"
         <script>
@@ -304,6 +313,6 @@ Reload the page, and you'll see our draughts board set up and ready for a game.
 
 Let's take a quick look back at what we've achieved:
 
-* We've packed and unpacked a data structure of custom Python / JavaScript types, without having to write code to recurse over that structure. If our GameState object becomes more complex (for example, the 'pieces' list might become a mixed list of Piece and King objects, or the state could include the game history) then there's no need to refactor any of the data packing / unpacking logic, other than providing an adapter object for each class used.
+* We've packed and unpacked a data structure of custom Python / JavaScript types, without having to write code to recurse over that structure. If our GameState object becomes more complex (for example, the 'pieces' list might become a mixed list of Piece and King objects, or the state could include the game history) then there's no need to refactor any of the data packing / unpacking logic, other than registering each class with a `telepath_pack` method.
 * Only the JS files necessary for unpacking the on-page data were served - if our gaming app expanded to cover Chess, Go and Othello, with all of the resulting classes registered with telepath, we'd still only need to serve the draughts-related code on this page.
 * Even though we're working with arbitrary objects, no dynamic inline JavaScript was required - all dynamic data was passed as JSON, and all JavaScript code was fixed at deployment time (important if our site is enforcing [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)).
