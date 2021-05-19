@@ -12,5 +12,6 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Tutorial: tutorial.md
+  - Packing external objects: adapters.md
   - API reference: api_reference.md
   - Data format: data_format.md
