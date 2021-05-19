@@ -11,18 +11,16 @@ class Artist:
         self.name = name
 
 
-class AlbumAdapter(Adapter):
-    def pack(self, obj, context):
-        context.add_media(js='music_player.js')
-
-        return ('music.Album', [obj.title, obj.artists])
-
-
-@register(adapter=AlbumAdapter())
+@register()
 class Album:
     def __init__(self, title, artists):
         self.title = title
         self.artists = artists
+
+    def telepath_pack(self, context):
+        context.add_media(js='music_player.js')
+
+        return ('music.Album', [self.title, self.artists])
 
 
 class ArtistAdapter(Adapter):

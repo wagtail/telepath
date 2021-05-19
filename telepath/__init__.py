@@ -170,6 +170,14 @@ class Adapter(BaseAdapter, metaclass=MediaDefiningClass):
         )
 
 
+class AutoAdapter(Adapter):
+    """
+    Adapter for objects that define their own telepath_pack method that we can simply delegate to.
+    """
+    def pack(self, obj, context):
+        return obj.telepath_pack(context)
+
+
 class JSContextBase:
     """
     Base class for JSContext classes obtained through AdapterRegistry.js_context_class.
@@ -245,7 +253,7 @@ class AdapterRegistry:
 
         elif not args:
             # called as a class decorator: @register() or @register(adapter=MyAdapter())
-            adapter = kwargs['adapter']  # TODO: implement fallback adapter
+            adapter = kwargs.get('adapter') or AutoAdapter()
             if not isinstance(adapter, Adapter):
                 raise TypeError("register expected an Adapter instance, got %r" % adapter)
 
