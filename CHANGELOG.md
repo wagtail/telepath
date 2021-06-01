@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.2 (2021-06-01)
+----------------
+
+* Add new API for classes to define their own packing logic
+
+
 0.1.1 (2021-04-22)
 ------------------
 
