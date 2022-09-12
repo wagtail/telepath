@@ -3,7 +3,7 @@ import itertools
 from django.utils.translation import activate, gettext_lazy
 from unittest import TestCase
 
-from telepath import Adapter, JSContext, register
+from telepath import Adapter, JSContext, register, StringAdapter
 
 
 class Artist:
@@ -303,3 +303,32 @@ class TestIDCollisions(TestCase):
                     ]
                 ]
             })
+
+
+class StringLike():
+    def __init__(self, val):
+        self.val = val.upper()
+
+    def __str__(self):
+        return self.val
+
+
+class StringLikeAdapter(StringAdapter):
+    def build_node(self, obj, context):
+        return super().build_node(str(obj), context)
+
+
+register(StringLikeAdapter(), StringLike)
+
+
+class TestPackingToString(TestCase):
+    def test_pack_to_string(self):
+        val = [
+            "real string",
+            StringLike("stringlike"),
+        ]
+
+        ctx = JSContext()
+        result = ctx.pack(val)
+
+        self.assertEqual(result, ["real string", "STRINGLIKE"])
