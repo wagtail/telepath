@@ -246,8 +246,8 @@ class AdapterRegistry:
         if len(args) == 2 and not kwargs:
             # called as register(adapter, cls)
             adapter, cls = args
-            if not isinstance(adapter, Adapter):
-                raise TypeError("register expected an Adapter instance, got %r" % adapter)
+            if not isinstance(adapter, BaseAdapter):
+                raise TypeError("register expected a BaseAdapter instance, got %r" % adapter)
 
             self.adapters[cls] = adapter
 
@@ -255,8 +255,8 @@ class AdapterRegistry:
             # called as a class decorator: @register() or @register(adapter=MyAdapter()) -
             # the return value here is the function that will receive the class definition
             adapter = kwargs.get('adapter') or AutoAdapter()
-            if not isinstance(adapter, Adapter):
-                raise TypeError("register expected an Adapter instance, got %r" % adapter)
+            if not isinstance(adapter, BaseAdapter):
+                raise TypeError("register expected a BaseAdapter instance, got %r" % adapter)
 
             def wrapper(cls):
                 # register the class and return it unchanged
