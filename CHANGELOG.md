@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.3 (2022-09-13)
+----------------
+
+* Add support for packing objects to primitive types
+
+
 0.2 (2021-06-01)
 ----------------
 

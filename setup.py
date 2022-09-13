@@ -8,7 +8,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='telepath',
-    version='0.2',
+    version='0.3',
     description="A library for exchanging data between Python and JavaScript",
     author='Matthew Westcott',
     author_email='matthew.westcott@torchbox.com',
@@ -26,7 +26,7 @@ setup(
         ],
     },
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
