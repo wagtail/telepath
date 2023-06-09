@@ -340,9 +340,9 @@ class ValueContext:
 
         # No adapter found; try special-case fallbacks
 
-        if isinstance(obj, Promise) and obj._delegate_text:
-            # object is a lazy translation object; handle as a string, translated to the currently
-            # active locale
+        if isinstance(obj, Promise):
+            # object is a lazy object (e.g. gettext_lazy result);
+            # handle as a string, translated to the currently active locale
             return StringNode(str(obj))
 
         # try handling as an iterable
