@@ -7,7 +7,7 @@ on:
   pull_request:
 
 # Current configuration:
-# - django 3.2, python 3.7
+# - django 3.2, python 3.8
 # - django 4.0, python 3.8
 # - django 4.1, python 3.9
 # - django 4.2, python 3.10
@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - python: "3.7"
+          - python: "3.8"
             django: "Django>=3.2,<3.3"
             experimental: false
           - python: "3.8"
