@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.3.1 (2023-06-12)
+------------------
+
+* Fix check for lazily evaluated objects, for provisional Django 5.0 compatibility
+* Drop support for Python <3.8 and Django <3.2
+
+
 0.3 (2022-09-13)
 ----------------
 
