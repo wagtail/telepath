@@ -293,6 +293,23 @@ class AdapterRegistry:
         })
 
 
+class CyclePlaceholder:
+    """
+    Temporary stand-in stored in ValueContext.nodes before a node is built.
+    If a back-edge is encountered while building the node (i.e. the same object
+    is reachable from its own args), build_node returns this placeholder and
+    assigns it an ID. After building completes the ID is transferred to the real
+    node, and the placeholder — now held in other nodes' args — emits a _ref.
+    """
+    def __init__(self):
+        self.id = None
+        self.seen = False
+        self.use_id = True
+
+    def emit(self):
+        return {'_ref': self.id}
+
+
 class ValueContext:
     """
     A context instantiated for each top-level value that JSContext.pack is called on. Results from
@@ -314,24 +331,31 @@ class ValueContext:
 
     def build_node(self, val):
         obj_id = id(val)
-        try:
+        if obj_id in self.nodes:
             existing_node = self.nodes[obj_id]
-        except KeyError:
-            # not seen this value before, so build a new node for it and store in self.nodes
-            node = self._build_new_node(val)
-            self.nodes[obj_id] = node
-            # Also keep a reference to the original value to stop it from getting deallocated
-            # and the ID being recycled
-            self.raw_values[obj_id] = val
+            if existing_node.id is None:
+                # Assign existing_node an ID so that we can create references to it
+                existing_node.id = self.next_id
+                self.next_id += 1
+            return existing_node
 
-            return node
+        # Reserve a slot before building; if a cycle is encountered during
+        # _build_new_node, the back-edge finds the placeholder and gets a _ref.
+        placeholder = CyclePlaceholder()
+        self.nodes[obj_id] = placeholder
+        # Also keep a reference to the original value to stop it from getting deallocated
+        # and the ID being recycled
+        self.raw_values[obj_id] = val
 
-        if existing_node.id is None:
-            # Assign existing_node an ID so that we can create references to it
-            existing_node.id = self.next_id
-            self.next_id += 1
+        node = self._build_new_node(val)
 
-        return existing_node
+        # Transfer any ID assigned by a back-edge so that the real node's
+        # first emit() includes _id and the placeholder's _ref resolves to it.
+        if placeholder.id is not None:
+            node.id = placeholder.id
+
+        self.nodes[obj_id] = node
+        return node
 
     def _build_new_node(self, obj):
         adapter = self.registry.find_adapter(type(obj))

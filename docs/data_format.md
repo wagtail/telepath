@@ -28,7 +28,7 @@ Represents an object that has been defined elsewhere in the data structure and a
         {"collie": {"_ref": 1}}
     ]}
 
-will be unpacked by first evaluating `new Dog("Lassie", "collie")` as above, then passing that same object instance in all three arguments of `Kennel`. Note that forward references are valid; `_ref` may reference an `_id` identifier that appears later in the serialised data stream.
+will be unpacked by first evaluating `new Dog("Lassie", "collie")` as above, then passing that same object instance in all three arguments of `Kennel`. Both forward and backward references are valid; `_ref` may reference an `_id` identifier that appears anywhere else in the serialised data stream, including later (forward) or earlier (backward). This means that cyclic object graphs can be represented: an object may appear as an argument of one of its own (transitive) arguments.
 
 ## `_dict`
 

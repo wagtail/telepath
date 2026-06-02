@@ -332,3 +332,160 @@ class TestPackingToString(TestCase):
         result = ctx.pack(val)
 
         self.assertEqual(result, ["real string", "STRINGLIKE"])
+
+
+class Band:
+    def __init__(self, name, members=None):
+        self.name = name
+        self.members = members or []
+
+
+class BandAdapter(Adapter):
+    js_constructor = 'music.Band'
+
+    def js_args(self, obj):
+        return [obj.name, obj.members]
+
+
+register(BandAdapter(), Band)
+
+
+class TestCyclicPacking(TestCase):
+    def test_self_reference_does_not_recurse(self):
+        ouroboros = Band("Ouroboros")
+        ouroboros.members = [ouroboros]  # band lists itself as a member
+
+        result = JSContext().pack(ouroboros)
+
+        self.assertEqual(result, {
+            '_type': 'music.Band',
+            '_id': 0,
+            '_args': ["Ouroboros", [{'_ref': 0}]],
+        })
+
+    def test_mutual_reference_does_not_recurse(self):
+        the_beatles = Band("The Beatles")
+        the_rolling_stones = Band("The Rolling Stones", members=[the_beatles])
+        the_beatles.members = [the_rolling_stones]  # The Beatles → The Rolling Stones → The Beatles
+
+        result = JSContext().pack(the_beatles)
+
+        self.assertEqual(result, {
+            '_type': 'music.Band',
+            '_id': 0,
+            '_args': ["The Beatles", [{
+                '_type': 'music.Band',
+                '_args': ["The Rolling Stones", [{'_ref': 0}]],
+            }]],
+        })
+
+    def test_deep_cycle_does_not_recurse(self):
+        # The Beatles → The Rolling Stones → Led Zeppelin → The Beatles
+        the_beatles = Band("The Beatles")
+        led_zeppelin = Band("Led Zeppelin", members=[the_beatles])
+        the_rolling_stones = Band("The Rolling Stones", members=[led_zeppelin])
+        the_beatles.members = [the_rolling_stones]
+
+        result = JSContext().pack(the_beatles)
+
+        self.assertEqual(result, {
+            '_type': 'music.Band',
+            '_id': 0,
+            '_args': ["The Beatles", [{
+                '_type': 'music.Band',
+                '_args': ["The Rolling Stones", [{
+                    '_type': 'music.Band',
+                    '_args': ["Led Zeppelin", [{'_ref': 0}]],
+                }]],
+            }]],
+        })
+
+    def test_two_independent_cycles_do_not_recurse(self):
+        the_beatles = Band("The Beatles")
+        the_rolling_stones = Band("The Rolling Stones", members=[the_beatles])
+        the_beatles.members = [the_rolling_stones]
+
+        pink_floyd = Band("Pink Floyd")
+        pink_floyd.members = [pink_floyd]
+
+        result = JSContext().pack([the_beatles, pink_floyd])
+
+        self.assertEqual(result, [
+            {
+                '_type': 'music.Band',
+                '_id': 0,
+                '_args': ["The Beatles", [{
+                    '_type': 'music.Band',
+                    '_args': ["The Rolling Stones", [{'_ref': 0}]],
+                }]],
+            },
+            {
+                '_type': 'music.Band',
+                '_id': 1,
+                '_args': ["Pink Floyd", [{'_ref': 1}]],
+            },
+        ])
+
+    def test_cyclic_node_also_referenced_outside_cycle(self):
+        # The Beatles is part of a cycle but also referenced separately at the top level
+        the_beatles = Band("The Beatles")
+        the_rolling_stones = Band("The Rolling Stones", members=[the_beatles])
+        the_beatles.members = [the_rolling_stones]
+
+        result = JSContext().pack([the_beatles, the_beatles])
+
+        self.assertEqual(result, [
+            {
+                '_type': 'music.Band',
+                '_id': 0,
+                '_args': ["The Beatles", [{
+                    '_type': 'music.Band',
+                    '_args': ["The Rolling Stones", [{'_ref': 0}]],
+                }]],
+            },
+            {'_ref': 0},
+        ])
+
+    def test_cyclic_list_does_not_recurse(self):
+        lst = []
+        lst.append(lst)  # lst → lst
+
+        result = JSContext().pack(lst)
+
+        self.assertEqual(result, {'_list': [{'_ref': 0}], '_id': 0})
+
+    def test_cyclic_dict_does_not_recurse(self):
+        d = {}
+        d['self'] = d  # d → d
+
+        result = JSContext().pack(d)
+
+        self.assertEqual(result, {'_dict': {'self': {'_ref': 0}}, '_id': 0})
+
+    def test_shared_member_uses_reference(self):
+        # Headliners and Main Stage both feature Beyoncé (shared member, no cycle)
+        beyonce = Band("Beyoncé")
+        headliners = Band("Headliners", members=[beyonce])
+        main_stage = Band("Main Stage", members=[beyonce])
+        festival = Band("Glastonbury", members=[headliners, main_stage])
+
+        result = JSContext().pack(festival)
+
+        # beyonce appears twice — second occurrence is a _ref (existing dedup behaviour)
+        self.assertEqual(result, {
+            '_type': 'music.Band',
+            '_args': ["Glastonbury", [
+                {
+                    '_type': 'music.Band',
+                    '_args': ["Headliners", [{
+                        '_type': 'music.Band',
+                        '_args': ["Beyoncé", []],
+                        '_id': 0,
+                    }]],
+                },
+                {
+                    '_type': 'music.Band',
+                    '_args': ["Main Stage", [{'_ref': 0}]],
+                },
+            ]],
+        })
